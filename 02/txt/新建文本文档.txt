@@ -1,0 +1,86 @@
+注册登录页，msg_id=1代表注册用户名存在，2代表注册成功请登录,3代表用户名密码错误,4f(source)参数错误,5没有提交用户名或密码，6用户名密码过长或等于0。
+（公众号放置注册登录页时需有?f=公众号标识（source）的参数）
+
+请求urlindex.php?a=register
+执行方法$obj->$_get['a'];
+以下都是show_all类里的函数；
+注册	register注册表单提交至该函数
+post['username']是否存在，
+是header（$_SERVIER['http_referer'].'?msg_id=1'）,
+否mag_id=rand(1000,9999); mag_id是否存在，是重新生成一次，否username,password,only_id,create_time,update_time插入manager表中生成一位。
+跳转至登录。header（$_SERVIER['http_referer'].'?msg_id=2'）,
+
+登录	login函数登录表单提交至该函数。
+select count(*) as count from manager where username=username and password=password;
+count=0	$_SERVIER['http_referer'].'?msg_id=1'）,
+count>0  	
+select mag_id from manager where username=username and password=password;
+$_session['mag_id']=$row['mag_id'];	header（'./showone.php']）; 
+
+展示页showone.php
+查看该mag_id是否有have_source是，使用公众号管理员展示函数。
+看看是否select count(*) as count from recommender where mag_id=$_session['mag_id'];
+没有输出没有统计数据，新增一位推荐人记录。
+若有
+select rec_name,rec_id,is_wx,recommend_id from recommender where mag_id=$_session['mag_id'];
+foreach($row['name'])展示该用户统计的几位推荐人的昵称。展示第一位推荐人的统计记录。
+
+(新增，删除，改名在一个页面，分别对应一个函数，新增了recommender_id字段12-03 03：49)
+新增一位推荐人add_recommender函数
+是否有删除参数，是先执行删除。
+select count(*) as count from recommender where mag_id=$_session['mag_id'];看是否超过每位管理者最多管理10个推荐人。
+若有10个提示只能先删除一个再增加，herder($_server['http_referer']);exit。删除时将该推荐人的mag_id改为old_.$_session['mag_id'],update_time=now();
+没有，是否有提交的数据。没有展示表单。
+有执行新增。mag_id=$session['mag_id']
+新增表单input，删除表单select，同时展现再一个页面。form提交地址$_server['http_referer']；
+
+公众号管理员展示函数看公众号里注册人列表和记录推荐人数据。
+根据belong_mag_id=$session['mag_id']查source_id,根据source_id查属于该source_id的mag_id。
+将各mag_id和username列出。
+点每个username时$_session['child_mag_id']=mag_id。进入child_msg_id展示页。
+
+child_msg_id展示页例如showone.php只展示数据不检查是否够10个不展示新增一位的功能。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+id
+公众号 wx_id
+公众号名称 wx_name
+日期	date	澳客投注日期
+选择的场次	match_no_before
+推荐比赛双方名称	match_name_before 
+推荐的结果	match_result_before
+推荐的结果计算描述 310，3/1/0   count,0/1/2/3   +,+>/+</->/-<,1/2/3	match_result_c
+澳客场次的名称	match_name_okooo
+主队进球	home_score_okooo
+客队进球	away_score_okooo
+开奖的结果310	match_result_okooo
+红或黑		recommend_result
+备注	comment
